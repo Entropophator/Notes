@@ -1,0 +1,6 @@
+Enable Cross Origin Resource Sharing (CORS)/ Disable Cross Domain Policy in FireFox 35.0.1
+- In url bar type "about:config"
+- search for "origin"
+- under security.fileuri.strict.origin.policy, change value to false (right click, toggle).
+
+
