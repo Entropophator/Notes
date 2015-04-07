@@ -1,0 +1,316 @@
+Notes/snippets from Beginning Backbone.JS Book
+
+- Backbone routers can use either hash tags (http://sitename.com/#myApp) 
+  or URL (http://sitename.com/myApp) with the history API using pushState (html5 only).
+  The default fall back is hash/fragment.
+  
+- 
+
+*******************************************************************************************
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title>Beginning Backbone.JS Book</title>
+<script src="lib/jquery.js" type="text/javascript"></script>
+<script src="lib/underscore.js" type="text/javascript"></script>
+<script src="lib/backbone.js" type="text/javascript"></script>
+</head>
+<body>
+<p>Beginning Backbone.JS Book</p>
+- on.change and previousAttributes methods<br><br>
+- Invalid Method, Validation Checking of Model Attributes<br>
+Run this code in the console: <br><br>
+<span>myBook.set('year', 1999, {validate: true});</span>
+<br>
+Check if the model is valid.<br>
+Run this code in the console<br><br>
+<span>console.log('Is the model valid: ' + myBook.isValid());</span>
+
+<script type="text/JavaScript">
+Book = Backbone.Model.extend({
+	initialize: function(){
+		this.on("change", function(){
+			console.log('Changed attributes: ' + JSON.stringify(this.previousAttributes()));
+		});
+        this.on("invalid", function(model, error){
+           //if any of the validation rules are broken, changes to the attribute values will fail
+           console.log('**Validation error: ' + error + '**');
+        });
+	},
+	defaults: {
+	},
+    printDetails: function() {
+    },
+    validate: function(attrs) {
+        if (attrs.year < 2000) {
+            return 'Year must be after 2000';
+        }
+        if (!attrs.name) {
+            return 'A name must be provided';
+        }
+    }
+});
+
+myBook = new Book();
+</script>
+<!-- <script src="lib/script.js" type="text/JavaScript"></script> -->
+</body>
+</html>
+
+*******************************************************************************************
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title>Beginning Backbone.JS Book</title>
+<script src="lib/jquery.js" type="text/javascript"></script>
+<script src="lib/underscore.js" type="text/javascript"></script>
+<script src="lib/backbone.js" type="text/javascript"></script>
+</head>
+<body>
+<p>Beginning Backbone.JS Book</p>
+- Basic add models to a collection.<br>
+View the console.
+
+<script type="text/JavaScript">
+Library = Backbone.Collection.extend({model:Book,
+    initialize: function(){
+        console.log('Creating a new library collection');
+    }
+});
+
+Book = Backbone.Model.extend({
+	initialize: function() {
+        console.log('Creating a book');
+    }
+});
+
+var bookOne = new Book({name: 'Beginning Backbone', author: 'James Sugrue'});
+var bookTwo = new Book({name: 'Pro Javascript', author: 'Dustin Diaz'});
+var myLibrary = new Library([bookOne,bookTwo]);
+console.log('Library contains ' + myLibrary.length + ' books');
+
+</script>
+</body>
+</html>
+
+*******************************************************************************************
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title>Beginning Backbone.JS Book</title>
+<script src="lib/jquery.js" type="text/javascript"></script>
+<script src="lib/underscore.js" type="text/javascript"></script>
+<script src="lib/backbone.js" type="text/javascript"></script>
+</head>
+<body>
+
+<p>Beginning Backbone.JS Book</p>
+- Basic remove models from a collection.<br>
+View the console.
+
+<script type="text/JavaScript">
+Book = Backbone.Model.extend({
+    initialize: function() {
+        console.log('Creating a book');
+    }
+});
+
+Library = Backbone.Collection.extend({model:Book,
+    initialize: function(){
+        this.on("remove", function(removedModel, models, options){
+            console.log('Element removed at ' + options.index);
+        });
+    }
+});
+
+var bookOne = new Book({name: 'Beginning Backbone', author: 'James Sugrue'});
+var bookTwo = new Book({name: 'Pro Javascript', author: 'Dustin Diaz'});
+var myLibrary = new Library([bookOne,bookTwo]);
+console.log('Library contains ' + myLibrary.length + ' books');
+myLibrary.remove([bookOne]);
+console.log('Library contains ' + myLibrary.length + ' books');
+
+</script>
+</body>
+</html>
+
+*******************************************************************************************
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title>Beginning Backbone.JS Book</title>
+<script src="lib/jquery.js" type="text/javascript"></script>
+<script src="lib/underscore.js" type="text/javascript"></script>
+<script src="lib/backbone.js" type="text/javascript"></script>
+</head>
+<body>
+
+<p>Beginning Backbone.JS Book</p>
+- Basic update models in a collection using the .set method<br>
+View the console, and type:
+<p>console.log(myLibrary.models);</p>
+and inspect the contents of the array that is left.
+
+<script type="text/JavaScript">
+Book = Backbone.Model.extend({
+    initialize: function() {
+        console.log('Creating a book');
+    }
+});
+
+Library = Backbone.Collection.extend({model:Book,
+    initialize: function(){
+        this.on("remove", function(removedModel, models, options){
+            console.log('Element removed at ' + options.index);
+        });
+    }
+});
+
+var bookOne = new Book({name: 'Beginning Backbone', author: 'James Sugrue'});
+var bookTwo = new Book({name: 'Pro Javascript', author: 'Dustin Diaz'});
+var myLibrary = new Library([bookOne,bookTwo]);
+console.log('Library contains ' + myLibrary.length + ' books');
+myLibrary.set([bookOne]);//anything not in the .set will be deleted unless (remove:false) option is added.
+//myLibrary.set([bookOne], {remove:false});
+console.log('Library contains ' + myLibrary.length + ' books');
+</script>
+</body>
+</html>
+
+*******************************************************************************************
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title>Beginning Backbone.JS Book</title>
+<script src="lib/jquery.js" type="text/javascript"></script>
+<script src="lib/underscore.js" type="text/javascript"></script>
+<script src="lib/backbone.js" type="text/javascript"></script>
+</head>
+<body>
+
+<p>Beginning Backbone.JS Book</p>
+- Basic sort during initialization using a comparator and <br>
+then applying the sort after an attribute in a model is changed.<br>
+View the console and observe the changes in the ordering of the collection.
+
+<script type="text/JavaScript">
+Book = Backbone.Model.extend({
+    initialize: function() {
+        //console.log('Creating a book');
+    }
+});
+
+Library = Backbone.Collection.extend({model:Book,
+    initialize: function(){},
+    comparator: function(a,b){
+        return a.get('name') < b.get('name') ? -1 : 1;
+    }
+});
+
+var bookOne =   new Book({name: 'B', author: 'Tom'});
+var bookTwo =   new Book({name: 'M', author: 'Dick'});
+var bookThree = new Book({name: 'A', author: 'Harry'});
+var bookFour =  new Book({name: 'L', author: 'Dustin'});
+
+var myLibrary = new Library([bookOne,bookTwo,bookThree,bookFour]);
+console.log('Before the sort:')
+myLibrary.forEach(function(model){
+    console.log('Books name is: ' + model.get('name'));
+});
+
+myLibrary.at(0).set('name', 'Z');
+console.log('Right after changing the first name in the collection,');
+console.log('Before the sort function is applied:');
+myLibrary.forEach(function(model){
+    console.log('Books name is: ' + model.get('name'));
+});
+
+myLibrary.sort();
+console.log('After the sort:')
+myLibrary.forEach(function(model){
+    console.log('Books name is: ' + model.get('name'));
+});
+</script>
+</body>
+</html>
+
+*******************************************************************************************
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title>Beginning Backbone.JS Book</title>
+<script src="lib/jquery.js" type="text/javascript"></script>
+<script src="lib/underscore.js" type="text/javascript"></script>
+<script src="lib/backbone.js" type="text/javascript"></script>
+</head>
+<body>
+
+<p>Beginning Backbone.JS Book</p>
+- Views and Templating.
+<div id="myLibraryViewSection"></div>
+
+<script type="text/JavaScript">
+Book = Backbone.Model.extend();
+
+Library = Backbone.Collection.extend({model:Book});
+
+var bookOne =   new Book({name: 'B', author: 'Tom', year: 2010});
+var bookTwo =   new Book({name: 'M', author: 'Dick', year: 2011});
+var bookThree = new Book({name: 'A', author: 'Harry', year: 2012});
+var bookFour =  new Book({name: 'L', author: 'Dustin', year: 2013});
+
+var myLibrary = new Library([bookOne,bookTwo,bookThree,bookFour]);
+
+//define all views here, after the models/collections are instantiated
+LibraryView = Backbone.View.extend({
+    events: {
+        'click #book': 'alertBook'
+    },
+    render: function(){
+        var self = this;
+
+        for (var i = 0; i < this.collection.size(); i++){
+                self.$el.append('<li id="book">Book Name: ' + self.collection.at(i).get('name') + '</li>');
+            }
+        return self;
+    },
+    alertBook: function(e){
+        alert('Book Clicked');
+    }
+});
+
+varmyView = new LibraryView({
+    collection: myLibrary,
+    el: '#myLibraryViewSection'
+});
+
+varmyView.render();
+</script>
+
+</body>
+</html>
+
+*******************************************************************************************
+
+Events
+You can add a listener that monitors all events, using the "all" event name. This allows you to
+provide one object that delegates events to the appropriate object to handle.
+
+	monitor.on('all', function(eventName){
+		delegateObject.trigger(eventName);
+	});
+	
+*******************************************************************************************
+
