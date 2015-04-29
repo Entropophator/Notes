@@ -4,7 +4,11 @@ Notes/snippets from Beginning Backbone.JS Book
   or URL (http://sitename.com/myApp) with the history API using pushState (html5 only).
   The default fall back is hash/fragment.
   
-- 
+*Console Commands for Troubleshooting.
+- Models
+"modelname".isValid(); - Check model attributes for validity.
+
+	
 
 *******************************************************************************************
 

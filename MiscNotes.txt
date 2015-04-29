@@ -3,8 +3,7 @@ Enable Cross Origin Resource Sharing (CORS)/ Disable Cross Domain Policy in Fire
 - search for "origin"
 - under security.fileuri.strict.origin.policy, change value to false (right click, toggle).
 
-
-To disable copy, paste and autocomplete in an HTML Text Field.
+- To disable copy, paste and autocomplete in an HTML Text Field.
 <input size=12 name="TextBox1" maxlength=12 
 	onCopy="return false" 
 	onDrag="return false" 
@@ -13,4 +12,4 @@ To disable copy, paste and autocomplete in an HTML Text Field.
 	ondragstart="return false" <!-- for chrome-->
 autocomplete="off">
 
-
+I have not yet tested this for cross-compatibility

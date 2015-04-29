@@ -1,0 +1,25 @@
+Procedures for install of GWTP on Eclipse, Win8, Java ver 1.7.76
+
+Adapted from: https://github.com/ArcBees/gwtp-eclipse-plugin
+
+Install 64bit version of the Java SDK 1.7.76
+	In "System Properties"
+	- Set JAVA_HOME environment variable to the SDK folder: C:\Program Files\Java\jdk1.7.0_76
+	
+Install the GWTP Plugin for Eclipse: 
+	- http://arcbees.github.io/gwtp-eclipse-plugin/4.4
+	1. In Eclipse, under "Help", "Install New Software".
+	2. Add the site above to the "Work with:" text box and click the "Add" button.
+	3. Give the Plugin a name you will know.
+	4. Follow the other prompts to install.
+	
+Install Apache Maven
+	Maven does not have an install program. You just have the files on your machine and add the path
+	where they reside to the system PATH environment variable string in "System Properties".
+	- Add the C:\Users\Thomas\Documents\0_Web Programming\9-Apache Maven\apache-maven-3.3.1\bin;
+	
+Install the M2E Eclipse Plugin: http://download.eclipse.org/technology/m2e/releases/
+
+Install the M2 Eclipse Tycho Update Site: http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.7.0/N/0.7.0.201309291400/
+
+Create a project, and run mvn install in the project directory.
